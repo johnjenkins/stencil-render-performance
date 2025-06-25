@@ -7,8 +7,41 @@
 
     <script type="module" src="/build/grid-performance.esm.js"></script>
     <script nomodule src="/build/grid-performance.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
   </head>
   <body>
     <my-component first="Stencil" middle="'Don't call me a framework'" last="JS"></my-component>
+    <a-native-component></a-native-component>
+    <div id="myGrid" style="height: 500px"></div>
+    <script>
+      class ANativeComponent extends HTMLElement {
+        connectedCallback() {
+          this.innerHTML = `<div>Native Component</div>`;
+        }
+      }
+
+      window.customElements.define('a-native-component', ANativeComponent);
+
+      const gridOptions = {
+        // Row Data: The data to be displayed.
+        rowData: Array.from({ length: 10000 }, (_, i) => ({
+          make: `Make ${i}`,
+          model: `Model ${i}`,
+          price: Math.floor(Math.random() * 100000),
+          electric: Math.random() > 0.5,
+        })),
+        // Column Definitions: Defines the columns to be displayed.
+        columnDefs: [
+          { field: 'make' },
+          { field: 'model' },
+          { field: 'price' },
+          { field: 'price', cellRenderer: params => `<a-native-component></a-native-component>` },
+          { field: 'electric', cellRenderer: params => `<my-component first="Iam" middle="just" last="a Test"></my-component>` },
+        ],
+      };
+
+      const myGridElement = document.querySelector('#myGrid');
+      agGrid.createGrid(myGridElement, gridOptions);
+    </script>
   </body>
 </html>
