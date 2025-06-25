@@ -1,3 +1,6 @@
+<!--
+COPYRIGHT (c) Siemens AG 2018-2025 ALL RIGHTS RESERVED.
+-->
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
   <head>
@@ -5,55 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
     <title>Stencil Component Starter</title>
 
-    <script type="module" src="/build/grid-performance.esm.js"></script>
-    <script nomodule src="/build/grid-performance.js"></script>
+    <script type="module" src="/components/my-component.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
   </head>
   <body>
     <my-component first="Stencil" middle="'Don't call me a framework'" last="JS"></my-component>
     <a-native-component></a-native-component>
-
-    <h1>Aggrid</h1>
-    <div id="myGrid" style="height: 400px"></div>
-
-    <h1>Trigger re-rendering</h1>
-    <div style="display: flex; flex-direction: row">
-      <div id="stencil-component" style="width: 50%"></div>
-      <div id="no-stencil-component" style="width: 50%"></div>
-    </div>
-
-    <button id="trigger-rendering">Trigger rendering</button>
+    <div id="myGrid" style="height: 500px"></div>
     <script>
-      document.querySelector('#trigger-rendering').addEventListener('click', () => {
-        setInterval(renderComponents, 100);
-      });
-
-      function renderComponents() {
-        const stencil = document.getElementById('stencil-component');
-
-        while (stencil.firstChild) {
-          stencil.removeChild(stencil.firstChild);
-        }
-
-        Array.from({ length: 500 }, (_, i) => {
-          const component = document.createElement('my-component');
-          component.setAttribute('first', `First ${i}`);
-          component.setAttribute('middle', `Middle ${i}`);
-          component.setAttribute('last', `Last ${i}`);
-          stencil.appendChild(component);
-        });
-
-        const noStencil = document.getElementById('no-stencil-component');
-
-        while (noStencil.firstChild) {
-          noStencil.removeChild(noStencil.firstChild);
-        }
-        Array.from({ length: 50 }, (_, i) => {
-          const component = document.createElement('a-native-component');
-          noStencil.appendChild(component);
-        });
-      }
-
       class ANativeComponent extends HTMLElement {
         connectedCallback() {
           this.innerHTML = `<div>Native Component</div>`;
